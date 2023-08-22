@@ -1,0 +1,137 @@
+{% load bootstrap4 %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de datos de productos</title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <style>
+        .titulo {
+            background-color: aqua;
+            border-radius: 20px;
+            padding: 10px;
+            font-family: Arial;
+            box-shadow: 1px 1px 5px rgb(150, 150, 150);
+            text-align: center;
+            margin-top: 0px;
+        }
+        h1 {
+            font-size: 20px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="titulo">
+        <h1>Productos</h1>
+    </div>
+
+   
+        {% block content %}
+        <div align="center">
+            <div style="width: 70%;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope"col">
+                                #
+                            </th>
+                            <th scope"col">
+                                Nombre
+                            </th>
+                            <th scope"col">
+                                Descripción
+                            </th>
+                            <th scope"col">
+                                Precio
+                            </th>
+                            <th scope"col">
+                                Fecha de registro
+                            </th>
+                            <th scope"col">
+                                Estatus
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                        <tr>
+                            <td scope="row">
+                                {{ producto.pk }}
+                            </td>
+                            <td scope="row">
+                                {{ producto.nombre }}
+                            </td>
+                            <td scope="row">
+                                {{ producto.descripcion }}
+                            </td>
+                            <td scope="row">
+                                {{ producto.precio }}
+                            </td>
+                            <td scope="row">
+                                {{ producto.fecha_de_registro }}
+                            </td>
+                            <td scope="row">
+                                {{ producto.estatus }}
+                            </td>
+                        </tr>
+                       {% endfor %}
+                    </tbody>
+                    </table>
+                    <!--FORMULARIO-->
+                    <br>
+                    <br>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+                            {{ form.nombre|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+                            {{ form.descripcion|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.precio.id_for_label }}">Precio</label>
+                            {{ form.precio|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.fecha_de_registro.id_for_label }}">Fecha de registro</label>
+                            {{ form.fecha_de_registro|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.estatus.id_for_label }}">Estatus</label>
+                            {{ form.estatus|add_class:"form-control" }}
+                        </div>
+                        <button class="btn btn-primary" type="submit">Agregar</button>
+                    </form>
+            </div>
+        </div>
+        {% endblock %}
+    
+
+
+
+
+    <!--
+    <div>
+        {% for producto in productos %}
+        <p>{{ producto.nombre }}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+-->
+</body>
+</html>

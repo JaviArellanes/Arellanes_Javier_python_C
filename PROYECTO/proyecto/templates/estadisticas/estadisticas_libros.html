@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadisticas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Contenedor principal con margen superior -->
+    <div class="container mt-4">
+        <!-- Fila -->
+        <div class="row">
+            <!-- Columna centrada en dipositivos medianos (ancho pantalla) -->
+            <div class="col-md-8 offset-md-2">
+            <h1>Estadísticas de libros</h1>
+            <!-- Div centrado con margenes inferiores -->
+            <div class="text-center mb-3"></div>
+                <p>Total de paginas de todos los libros: {{ total_paginas }}
+                </p>
+                <p>Año máximo de publicación: {{ max_anio_publicación }}</p>
+                <p>Promedio de paginas por libro: {{ promedio_paginas }}</p>
+                <!-- Contenedor para el gráfico -->
+                <div style="height: 400px;">
+                    <!-- Canvas donde se mostrara el grafico -->
+                    <canvas id="miGrafico"></canvas>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- JavaScript para crear y configurar el gráfico -->
+    <script>
+        //Datos para el gráfico
+        var datos = {
+            labels: ["Total de páginas", "Año máximo de publicación", "Número promedio de páginas"],
+            datasets: [{
+                label: "Estadísticas de Libros",
+                backgroundColor: ["red", "blue", "green"],
+                data: [{{ total_paginas }}, {{ max_anio_publicacion }}, {{ promedio_paginas }}]
+            }]
+        };
+        
+        // Configuración del gráfico
+        var opciones = {
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        // Crear el gráfico
+        var ctx = document.getElementById("miGrafico").getContext("2d");
+        var miGrafico = new Chart(ctx, {
+            type: 'bar',  // Cambia el tipo de gráfico aquí (ejemplo: 'line', 'pie', 'doughnut', etc.)
+            data: datos,
+            options: opciones
+        });
+    </script>
+
+</body>
+</html>

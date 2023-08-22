@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load bootstrap4 %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+  <head>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      .titulo{
+        background-color: #286150;
+        border-radius: 20px;
+        padding: 10px;
+        font-family: arial;
+      }
+      h1{
+        color:white;
+        font-size: xxx-large;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- encabezado -->
+
+    <!-- contenido -->
+   
+    <div align="center">
+      <div style="width: 70%;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">     
+                #
+              </th>
+              <th scope="col">     
+                Titulo
+              </th>
+              <th scope="col">     
+                Edición
+              </th>
+              <th scope="col">     
+                Editorial
+              </th>
+              <th scope="col">     
+                Año de publicación
+              </th>
+              <th scope="col">     
+                Número de página
+              </th>
+              <th scope="col">     
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for libro in libros  %}
+            <tr>
+              <td scope="row">
+                {{ libro.pk }}
+              </td>
+              <td>
+                {{ libro.titulo }}
+              </td>
+              <td>
+                {{ libro.edicion }}
+              </td>
+              <td>
+                {{ libro.editorial }}
+              </td>
+              <td>
+                {{ libro.año_publicacion }}
+              </td>
+              <td>
+                {{ libro.paginas }}
+              </td>
+              <td>
+                <form method="post" id="form-eliminar" class="form-eliminar" action="{% url 'eliminar_libro' libro.pk %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="libro_id" value="{{ libro.pk }}">
+                  <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar-{{ libro.pk }}">Eliminar</button>
+                  <div class="dropdown" id="dropdown-confirmacion-{{ libro.pk }}" style="display: none;">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Confirmar eliminación
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <button class="dropdown-item" type="submit">Si, eliminar</button>
+                      <button class="dropdown-item" type="button" id="btn-cancelar-eliminar">Cancelar</button>
+                    </div>
+                  </div>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+    <script>
+      $(document).ready(function(){
+        //Mostrar el menu desplegable
+        $('[id^="btn-confirmar-eliminar"]').click(function(){
+          var divId = $(this).attr('id').split('-')[3];
+          $('#dropdown-confirmacion-' + divId).show();
+        });
+        //Cancelar la eliminacion
+        $('#btn-cancelar-eliminar').click(function(){
+          $('#dropdown-confirmacion').hide();
+        });
+      });
+    </script>
+  </body>
+</html>
+{% endblock %}
