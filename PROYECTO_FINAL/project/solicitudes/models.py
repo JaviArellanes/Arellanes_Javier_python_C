@@ -12,4 +12,4 @@ class Solicitudes(models.Model):
     estatus = models.CharField("Estatus", max_length=300, default="sin estatus")
 
     def _str_(self):
-        return self.nombre
+        return self.titulo
